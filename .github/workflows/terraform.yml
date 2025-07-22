@@ -52,21 +52,21 @@ jobs:
           name: dev-plan
           path: environments/dev/dev.plan
 
-      # Repeat for prod environment
-      - name: Terraform Init (Prod)
-        working-directory: environments/prod
-        run: terraform init -input=false
+      # # Repeat for prod environment
+      # - name: Terraform Init (Prod)
+      #   working-directory: environments/prod
+      #   run: terraform init -input=false
 
-      - name: Terraform Validate (Prod)
-        working-directory: environments/prod
-        run: terraform validate
+      # - name: Terraform Validate (Prod)
+      #   working-directory: environments/prod
+      #   run: terraform validate
 
-      - name: Terraform Plan (Prod)
-        working-directory: environments/prod
-        run: terraform plan -out=prod.plan
+      # - name: Terraform Plan (Prod)
+      #   working-directory: environments/prod
+      #   run: terraform plan -out=prod.plan
 
-      - name: Upload plan file (Prod)
-        uses: actions/upload-artifact@v3
-        with:
-          name: prod-plan
-          path: environments/prod/prod.plan
+      # - name: Upload plan file (Prod)
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: prod-plan
+      #     path: environments/prod/prod.plan
