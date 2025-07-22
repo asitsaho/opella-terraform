@@ -61,26 +61,30 @@ jobs:
          fi 
 
       - name: Upload plan file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: dev-plan
-          path: environments/dev/dev.plan
+          name: tfplan
+          path: Terraform/main/nonprod/tfplan
 
-      # # Repeat for prod environment
-      # - name: Terraform Init (Prod)
-      #   working-directory: environments/prod
-      #   run: terraform init -input=false
+      - name: Create String Output
+        id: tf-plan-string
+        run: |
+          TERRAFORM_PLAN=$(terraform -chdir=Terraform/main/nonprod show -no-color tfplan)
 
-      # - name: Terraform Validate (Prod)
-      #   working-directory: environments/prod
-      #   run: terraform validate
+          delimeter="$(openssl rand -hex 8)"
+          echo "summary<<${delimeter}" >> $GITHUB_OUTPUT
+          echo "## Terraform plan output" >> $GITHUB_OUTPUT
+          echo "<details><summary>Click to expand</summary>" >> $GITHUB_OUTPUT
+          echo " >> $GITHUB_OUTPUT"
+          echo 'terraform' >> $GITHUB_OUTPUT
+          echo "$TERRAFORM_PLAN" >> $GITHUB_OUTPUT
+          echo '' >> $GITHUB_OUTPUT
+          ehco "</details." >> $GITHUB_OUTPUT
+          echo "${delimeter}" >> $GITHUB_OUTPUT
 
-      # - name: Terraform Plan (Prod)
-      #   working-directory: environments/prod
-      #   run: terraform plan -out=prod.plan
-
-      # - name: Upload plan file (Prod)
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: prod-plan
-      #     path: environments/prod/prod.plan
+      - name: Publish terraform plan to task summary
+        env:
+         SUMMARY: ${{ steps.tf-plan-string.outputs.summary }}
+        run: |
+          echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+          
