@@ -29,10 +29,6 @@ jobs:
         with:
           terraform_wrapper: false
 
-      - name: Terraform Init
-        working-directory: environments/dev
-        run: terraform init -input=false
-
       - name: Azure login
         uses: azure/login@v1
         with:
