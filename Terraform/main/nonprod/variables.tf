@@ -1,10 +1,8 @@
-variable "environment_name"
-{
+variable "environment_name"{
   type = string
 }
 
-variable "resource_name"
-{
+variable "resource_name"{
   type = string
 }
 
