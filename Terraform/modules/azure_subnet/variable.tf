@@ -34,7 +34,7 @@ variable "network_security_group_location"{
 
 variable subnet_delegation"{
  description = "subnet delegation configuration."
-type = map(list(object({
+ type = map(list(object({
   name = string
   actions = list(String)
 })))
