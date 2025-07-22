@@ -36,7 +36,7 @@ variable "subnet_delegation"{
  description = "subnet delegation configuration."
  type = map(list(object({
   name = string
-  actions = list(String)
+  actions = list(string)
 })))
 default = {}
 nullable = false
