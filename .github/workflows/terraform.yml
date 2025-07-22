@@ -8,16 +8,16 @@ permissions:
      issues: write
      pull-requests: write
      contents: read
-  
 
 jobs:
-  terraform:
-    name: 'Terraform Validate & Plan'
+  terraform-plan:
+    name: 'Terraform Plan'
     runs-on: ubuntu-latest
+    environment: dev
     env:
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      #ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
     steps:
@@ -27,44 +27,60 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: '1.5.0'
+          terraform_wrapper: false
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          
 
       - name: Terraform Init
-        working-directory: environments/dev
-        run: terraform init -input=false
+        run: terraform -chdir=Terraform/main/nonprod init -upgrade -reconfigure -backend-config ../../environments/nonprod/backend.conf
 
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
-
-      - name: Terraform Validate
-        working-directory: environments/dev
-        run: terraform validate
+    
 
       - name: Terraform Plan (Dev)
-        working-directory: environments/dev
-        run: terraform plan -out=dev.plan
+        id: tf-plan
+        run: |
+         export exitcode=0
+         terraform -chdir=Terraform/main/nonprod plan -var-file ../../environments/nonprod/terraform.tfvars -detailed-exitcode -no-color -out tfplan || export exitcode=$?
+         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+
+         if [ $exitcode -eq 1]; then
+           echo Terraform plan failed!
+           exit 1
+         else
+          exit 0
+         fi 
 
       - name: Upload plan file
         uses: actions/upload-artifact@v4
         with:
-          name: dev-plan
-          path: environments/dev/dev.plan
+          name: tfplan
+          path: Terraform/main/nonprod/tfplan
 
-      # # Repeat for prod environment
-      # - name: Terraform Init (Prod)
-      #   working-directory: environments/prod
-      #   run: terraform init -input=false
+      - name: Create String Output
+        id: tf-plan-string
+        run: |
+          TERRAFORM_PLAN=$(terraform -chdir=Terraform/main/nonprod show -no-color tfplan)
 
-      # - name: Terraform Validate (Prod)
-      #   working-directory: environments/prod
-      #   run: terraform validate
+          delimeter="$(openssl rand -hex 8)"
+          echo "summary<<${delimeter}" >> $GITHUB_OUTPUT
+          echo "## Terraform plan output" >> $GITHUB_OUTPUT
+          echo "<details><summary>Click to expand</summary>" >> $GITHUB_OUTPUT
+          echo " >> $GITHUB_OUTPUT"
+          echo 'terraform' >> $GITHUB_OUTPUT
+          echo "$TERRAFORM_PLAN" >> $GITHUB_OUTPUT
+          echo '' >> $GITHUB_OUTPUT
+          ehco "</details." >> $GITHUB_OUTPUT
+          echo "${delimeter}" >> $GITHUB_OUTPUT
 
-      # - name: Terraform Plan (Prod)
-      #   working-directory: environments/prod
-      #   run: terraform plan -out=prod.plan
-
-      # - name: Upload plan file (Prod)
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: prod-plan
-      #     path: environments/prod/prod.plan
+      - name: Publish terraform plan to task summary
+        env:
+         SUMMARY: ${{ steps.tf-plan-string.outputs.summary }}
+        run: |
+          echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+          
