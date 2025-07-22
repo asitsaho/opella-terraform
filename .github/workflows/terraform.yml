@@ -50,7 +50,7 @@ jobs:
         id: tf-plan
         run: |
          export exitcode=0
-         terraform -chdir=Terraform/main/nonprod plan -var-file ../../environments/nonprod/terraform.tfcars -detailed-exitcode -no-color -out tfplan || export exitcode=$?
+         terraform -chdir=Terraform/main/nonprod plan -var-file ../../environments/nonprod/terraform.tfvars -detailed-exitcode -no-color -out tfplan || export exitcode=$?
          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
 
          if [ $exitcode -eq 1]; then
