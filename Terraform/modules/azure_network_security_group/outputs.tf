@@ -1,6 +1,7 @@
 output "id"{
  value  = "${azurerm_netowrk_security_group.netowrk_security_group.id}"
  description = "The network securoty Group ID."
+}
 
 output "name"{
   value = "${azurerm_netowrk_security_group.netowrk_security_group.name}"
