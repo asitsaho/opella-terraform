@@ -32,7 +32,7 @@ variable "network_security_group_location"{
   default = null
 }
 
-variable subnet_delegation"{
+variable "subnet_delegation"{
  description = "subnet delegation configuration."
  type = map(list(object({
   name = string
