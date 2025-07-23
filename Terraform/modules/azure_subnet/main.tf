@@ -1,6 +1,7 @@
 resource "azurerm_subnet" "example" {
   name                 = var.name
   resource_group_name  = var.resource_group_name
+  virtula_network_name = var.virtual_network_name
   service_endpoints = var.service_endpoints
   address_prefixes     = var.address_prefixes
   private_endpoint_network_policies_enabled = var.private_endpoint_network_policies_enabled
