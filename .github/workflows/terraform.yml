@@ -38,7 +38,7 @@ jobs:
           
 
       - name: Terraform Init
-        run: terraform -chdir=Terraform/main/nonprod init -upgrade -reconfigure -backend-config ../../environments/nonprod/backend.conf
+        run: terraform -chdir=Terraform/main/nonprod init -upgrade -reconfigure -backend-config  ../../environments/nonprod/backend.conf
 
     
       - name: Terraform Plan (Dev)
