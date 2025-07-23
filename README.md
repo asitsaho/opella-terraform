@@ -6,11 +6,3 @@ Reusable Terraform module for provisioning Azure Virtual Networks (VNet) in mult
 
 ## 🧩 Structure
 
-├── modules/
-│ └── vnet/ # Reusable Azure VNet module
-├── environments/
-│ ├── dev/ # Development environment
-│ └── prod/ # Production environment
-├── .github/workflows/ # CI/CD GitHub Actions
-├── provider.tf # Shared provider config (optional)
-└── README.md
