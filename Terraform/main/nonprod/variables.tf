@@ -25,7 +25,7 @@ variable "subnetaddress" {
   default = ["10.0.1.0/24"]
 }
 
-variable "Serviceendpoints"{
+variable "serviceendpoints"{
  type = list
 }
 variable "private_endpoint_network_polciies_enables"{
