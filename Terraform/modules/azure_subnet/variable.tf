@@ -8,7 +8,7 @@ variable"virtual_netowrk_name"{
   type = string
 }
 
-variable "address_prifixes"{
+variable "address_prefixes"{
    type = list
 }
 variable "service_endpoints"{
