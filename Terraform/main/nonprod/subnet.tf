@@ -8,7 +8,7 @@ module "subnet"{
   network_security_group_id = module.network_security_group.id
   network_security_group_location = module.network_security_group.location
   private_endpoint_network_policies_enabled = var.private_endpoint_network_policies_enabled
-  depends_on = [module.resource_group.name , module.virtual_network.name, module.network_Security_group.name,
+  depends_on = [module.resource_group.name , module.virtual_network.name, module.network_security_group.name,
   module.network_security_group.id ]
   service_endpoints  = var.serviceendpoints
   }
