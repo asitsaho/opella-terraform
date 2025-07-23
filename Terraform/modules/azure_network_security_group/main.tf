@@ -16,8 +16,8 @@ resource "azurerm_network_security_rule" "allow_opellla_ips"{
     source_address_prefixes = [
       "168.183.0.0/16"
       ]
-destination_address_prefix = "*" 
-  access ="Allow"
-  priority = "!20"
-  direction ="Inbound"
+    destination_address_prefix = "*" 
+    access ="Allow"
+    priority = "120"
+    direction ="Inbound"
   }
