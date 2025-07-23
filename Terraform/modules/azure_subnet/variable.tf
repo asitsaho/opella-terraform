@@ -4,7 +4,7 @@ variable "name"{
 variable "resource_group_name"{
   type = string
 }
-variable "virtual_netowrk_name"{
+variable "virtual_network_name"{
   type = string
 }
 
