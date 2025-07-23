@@ -3,7 +3,7 @@ module virtual_network {
   name                    = "vn-${var.resource_name}-${var.resource_namespace}"
   resource_group_name     = module.resource_group.name
   address_space           = var.vnet_address_space
-  location                = module.resoorce_group.location
+  location                = module.resource_group.location
   tags                    = var.tags
     depends_on = [module.resource_group.name]
       } 
