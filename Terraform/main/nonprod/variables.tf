@@ -36,5 +36,8 @@ variable "allow_ips"{
  type = list
 }
 
-
+variable "storage_account_sku_name" {
+  type = string
+  default = "Standard_GRS"
+}
 
