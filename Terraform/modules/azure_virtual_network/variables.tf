@@ -2,7 +2,7 @@ variable "name" {
   description = "The name of virtual network , changing this forces new reources to be created "
   type = string 
 }
-variable "address_Space"{
+variable "address_space"{
   description = "The address space that is used for virtual network ."
   type = list
 }
