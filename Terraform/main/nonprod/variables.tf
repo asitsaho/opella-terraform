@@ -6,7 +6,7 @@ variable "resource_name"{
   type = string
 }
 
-variable "resource_namepsace"{
+variable "resource_namespace"{
   type = string
 }
 variable "location"{
