@@ -6,7 +6,7 @@ resource "azurerm_subnet" "example" {
   private_endpoint_network_policies_enabled = var.private_endpoint_network_policies_enabled
 
   dynamic "delegation" {
-    for_each = ar.subnet_delegation
+    for_each = var.subnet_delegation
     content {
       name = delegation.key
       dynamic "service_delegation" {
@@ -19,7 +19,7 @@ resource "azurerm_subnet" "example" {
       }
      }
     }
-   resource "azurerm_subnet_network_Security_group_association" "subnet"{
+   resource "azurerm_subnet_network_security_group_association" "subnet"{
      subnet_id = azurerm_subnet.subnet.id
      network_security_group_id = var.network_security_group_id
      }
