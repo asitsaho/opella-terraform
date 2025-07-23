@@ -28,7 +28,7 @@ variable "subnetaddress" {
 variable "serviceendpoints"{
  type = list
 }
-variable "private_endpoint_network_polciies_enabled"{
+variable "private_endpoint_network_policies_enabled"{
   description = "private end point link polciy "
 }
 
