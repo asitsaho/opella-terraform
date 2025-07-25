@@ -5,7 +5,7 @@ resource "azurerm_network_security_group" "netowrk_security_group"{
   tags = var.tags
   }
 
-resource "azurerm_network_security_rule" "allow_opellla_ips" {
+resource "azurerm_network_security_rule" "allow_opella_ips" {
     name = "AllowOpellaHttpsInbound"
     resource_group_name = var.resource_group_name
     network_security_group_name = azurerm_network_security_group.network_security_group.name
