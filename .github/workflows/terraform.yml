@@ -74,7 +74,7 @@ jobs:
           echo 'terraform' >> $GITHUB_OUTPUT
           echo "$TERRAFORM_PLAN" >> $GITHUB_OUTPUT
           echo '' >> $GITHUB_OUTPUT
-          ehco "</details." >> $GITHUB_OUTPUT
+          echo "</details." >> $GITHUB_OUTPUT
           echo "${delimeter}" >> $GITHUB_OUTPUT
 
       - name: Publish terraform plan to task summary
